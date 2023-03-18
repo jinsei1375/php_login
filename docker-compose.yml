@@ -36,6 +36,7 @@ services:
       - ./docker-config/mysql/data:/var/lib/mysql
       # - ./docker-config/mysql/sql:/docker-entrypoint-initdb.d
       - ./docker-config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - .docker-config/mysql/initdb.d:/docker-entrypoint-initdb.d
 
     depends_on:
       - mysql-volume
