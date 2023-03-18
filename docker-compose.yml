@@ -28,8 +28,8 @@ services:
     environment:
       MYSQL_DATABASE: yt_dev
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: yt_user
-      MYSQL_PASSWORD: yt_user
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
       TZ: 'Asia/Tokyo'
       
     volumes:
