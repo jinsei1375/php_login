@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <title>トップページ</title>
+  <title>ログインページ</title>
 </head>
 <body>
   <header>
@@ -38,7 +38,20 @@
   </header>
   <main>
     <div class="wrapper">
-      <h1 class="text-center">トップページ</h1>
+      <h1 class="text-center">ログイン</h1>
+      <div class="form-wrap row justify-content-center">
+      <form class="p-4 col-6">
+          <div class="mb-3">
+            <label for="email" class="form-label">メールアドレス</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">パスワード</label>
+            <input type="password" class="form-control" name="password" id="password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">ログイン</button>
+        </form>
+      </div>
     </div>
   </main>
 </body>
