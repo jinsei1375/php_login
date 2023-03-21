@@ -74,7 +74,8 @@
             <p>ユーザー名</p>
             <p><span class="fas fa-angle-double-right"></span><span class="check-info"><?php echo htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES); ?></span></p>
           </div>
-          <button class="btn btn-subprimary"><a href="./register.php">変更する</a></button>
+          <a href="./register.php" class="btn btn-outline-dark">変更する</a>
+          <!-- <button type="submit" class="btn btn-primary">変更する</button> -->
           <button type="submit" class="btn btn-primary">登録</button>
         </form>
       </div>

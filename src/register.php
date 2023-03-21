@@ -64,14 +64,14 @@
         <form method="POST" class="p-4 col-6">
           <div class="mb-3">
             <label for="email" class="form-label">メールアドレス</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com" required>
+            <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com" value="<?php echo (isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : ''); ?>" required>
             <?php if(!empty($error['email'])): ?>
-              <p><?php echo $error['email']; ?></p>
+              <p class="text-danger"><?php echo $error['email']; ?></p>
             <?php endif; ?>
           </div>
           <div class="mb-3">
             <label for="name" class="form-label">ユーザー名</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="" required>
+            <input type="text" class="form-control" id="name" name="name" value="<?php echo (isset($_SESSION['user']['name']) ? $_SESSION['user']['name'] : ''); ?>" required>
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">パスワード</label>
