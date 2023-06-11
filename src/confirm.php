@@ -11,6 +11,7 @@
   if(!empty($_POST['check'])) {
     $hash = password_hash($_SESSION['user']['password'], PASSWORD_DEFAULT);
 
+    $dbh = db_connect();
     $stmt = $dbh->prepare("INSERT INTO users (email, name, password) VALUES (:email, :name, :password)");
     $stmt->bindParam(':email', $_SESSION['user']['email'], PDO::PARAM_STR);
     $stmt->bindParam(':name', $_SESSION['user']['name'], PDO::PARAM_STR);
@@ -18,7 +19,7 @@
     $stmt->execute();
 
     unset($_SESSION['user']);
-    header('Location: ./index.php');
+    header('Location: ./mypage/index.php');
     exit();
   }
 

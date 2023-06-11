@@ -5,6 +5,7 @@
 
   if(!empty($_POST)) {
     $sql = "select count(id) from users where email=:email";
+    $dbh = db_connect();
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':email', $_POST['email']);
     $stmt->execute();

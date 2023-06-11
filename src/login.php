@@ -1,5 +1,17 @@
 <?php 
 
+  require_once('./db_connect.php');
+  session_start();
+
+  if (isset($_POST['email']) && isset($_POST['password'])) {
+    $res = getUserInfo($_POST);
+
+    setSessionUser($res);
+
+    header('Location: ./mypage/index.php');
+    exit();
+  }
+
 ?>
 
 <!DOCTYPE html>
