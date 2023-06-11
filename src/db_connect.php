@@ -23,8 +23,8 @@
             $pdo = db_connect();
             $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
     
-            $stmt->bindParam(':email', $request['email'], PDO::PARAM_STR);
-            $res = $stmt->execute();
+            $stmt->bindParam(':email', $request['email']);
+            $stmt->execute();
             $response = $stmt->fetch(PDO::FETCH_ASSOC);
     
             if (!password_verify($request['password'], $response['password'])) {
@@ -35,6 +35,7 @@
         }catch(Exception $e){
             logToFile($e, __FILE__, __LINE__);
             return $e;
+            print('error');
         }
     }
     

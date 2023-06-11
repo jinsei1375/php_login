@@ -5,6 +5,10 @@
 
   if (isset($_POST['email']) && isset($_POST['password'])) {
     $res = getUserInfo($_POST);
+    if (empty($res)) {
+      $_SESSION['message'] = "データがありません。";
+      header('Location: ./login.php');
+    }
 
     setSessionUser($res);
 
@@ -52,10 +56,15 @@
     <div class="wrapper">
       <h1 class="text-center">ログイン</h1>
       <div class="form-wrap row justify-content-center">
-      <form class="p-4 col-6">
+        <?php 
+          if (isset($_SESSION['message'])) {
+        ?>
+        <strong>Error!</strong> <?php echo $_SESSION['message'] ?>
+        <?php } ?>
+        <form method="POST" class="p-4 col-6">
           <div class="mb-3">
             <label for="email" class="form-label">メールアドレス</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com" required>
+            <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com" value="<?php echo (isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : ''); ?>" required>
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">パスワード</label>
