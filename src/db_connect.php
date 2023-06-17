@@ -33,7 +33,6 @@
             $pdo = null;
             return $response;
         }catch(Exception $e){
-            logToFile($e, __FILE__, __LINE__);
             return $e;
             print('error');
         }

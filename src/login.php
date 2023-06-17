@@ -4,16 +4,33 @@
   session_start();
 
   if (isset($_POST['email']) && isset($_POST['password'])) {
-    $res = getUserInfo($_POST);
-    if (empty($res)) {
-      $_SESSION['message'] = "データがありません。";
+    // $res = getUserInfo($_POST);
+    // if (!$res) {
+    //   $_SESSION['message'] = "データがありません。";
+    //   header('Location: ./login.php');
+    // }
+
+    // setSessionUser($res);
+    // header('Location: ./mypage/index.php');
+    // exit();
+    $dbh = db_connect();
+    $sql = "SELECT * FROM users WHERE email = :email";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':email', $_POST['email']);
+    $stmt->execute();
+    $user = $stmt->fetch();
+    if (password_verify($_POST['password'], $user['password'])) {
+      //DBのユーザー情報をセッションに保存
+      $_SESSION["id"] = $user["id"];
+      $_SESSION["email"] = $user["email"];
+      $_SESSION["name"] = $user["name"];
+      $_SESSION["is_login"] = 1;
+      header('Location: ./mypage/index.php');
+      exit();
+    } else {
+      $message = "メールアドレスもしくはパスワードが間違っています";
       header('Location: ./login.php');
     }
-
-    setSessionUser($res);
-
-    header('Location: ./mypage/index.php');
-    exit();
   }
 
 ?>
@@ -56,15 +73,17 @@
     <div class="wrapper">
       <h1 class="text-center">ログイン</h1>
       <div class="form-wrap row justify-content-center">
-        <?php 
-          if (isset($_SESSION['message'])) {
-        ?>
-        <strong>Error!</strong> <?php echo $_SESSION['message'] ?>
-        <?php } ?>
         <form method="POST" class="p-4 col-6">
           <div class="mb-3">
+            <?php
+              if(isset($message)) {
+            ?>
+            <p class="text-center"><?php echo $message ?? ''; ?></p>
+            <?
+              }
+            ?>
             <label for="email" class="form-label">メールアドレス</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com" value="<?php echo (isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : ''); ?>" required>
+            <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com" value="<?php echo (isset($_SESSION['email']) ? $_SESSION['email'] : ''); ?>" required>
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">パスワード</label>

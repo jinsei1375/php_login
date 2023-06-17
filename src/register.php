@@ -7,7 +7,7 @@
     $sql = "select count(id) from users where email=:email";
     $dbh = db_connect();
     $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(':email', $_POST['email']);
+    $stmt->bindValue(':email', $_POST['email']);
     $stmt->execute();
     $count = $stmt->fetch(PDO::FETCH_ASSOC);
     if($count['count(id)'] > 0 ) {
