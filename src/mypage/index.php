@@ -50,6 +50,7 @@
     <div class="wrapper">
       <h1 class="text-center">マイページ</h1>
       <p class="text-center">ログイン成功</p>
+      <p><?php echo $_SESSION['email']; ?></p>
     </div>
   </main>
 </body>

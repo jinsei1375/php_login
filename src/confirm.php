@@ -18,7 +18,16 @@
     $stmt->bindParam(':password', $hash, PDO::PARAM_STR);
     $stmt->execute();
 
-    unset($_SESSION['user']);
+    $sql = "SELECT * FROM users WHERE email = :email";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':email', $_SESSION['user']['email']);
+    $stmt->execute();
+    $user = $stmt->fetch();
+
+    $_SESSION["id"] = $user["id"];
+    $_SESSION["email"] = $user["email"];
+    $_SESSION["name"] = $user["name"];
+    $_SESSION["is_login"] = 1;
     header('Location: ./mypage/index.php');
     exit();
   }
