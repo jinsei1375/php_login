@@ -6,3 +6,4 @@
 /.circleci
 /.DS_Store
 /*.code-workspace
+/maildir/
