@@ -63,7 +63,7 @@
               <a class="nav-link" href="/login.php">ログイン</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/register.php">登録</a>
+              <a class="nav-link" href="/tmp_register.php">登録</a>
             </li>
           </ul>
         </div>
