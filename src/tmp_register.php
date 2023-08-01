@@ -1,7 +1,6 @@
 <?php 
 
   require_once('./db_connect.php');
-  // session_start();
 
   // formに埋め込むcsrf tokenの生成
   if (empty($_SESSION['_csrf_token'])) {
@@ -24,7 +23,6 @@
       $error['email'] = 'このメールアドレスはすでに使われています。';
     }
     if(!isset($error)) {
-      // $_SESSION['user'] = $_POST;
 
       // register token生成
       $registerToken = bin2hex(random_bytes(32));
@@ -36,11 +34,9 @@
       $stmt->bindValue(':register_token_sent_at', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
       $stmt->execute();
 
-      // URLはご自身の環境に合わせてください
-      $url = "http://localhost/show_register_form.php?token={$registerToken}";
 
+      $url = "http://localhost:8888/show_register_form.php?token={$registerToken}";
       $subject =  '仮登録が完了しました';
-
       $body = <<<EOD
           会員登録ありがとうございます！
 
@@ -55,20 +51,8 @@
         header('Location: email_sent.php');
         exit();
       }
-
-      // header('Location: confirm.php');
-      // exit();
     }
   }
-?>
-
-<?php 
-  // $to = "to@example.com";
-  // $subject = "TEST";
-  // $message = "This is TEST.\r\nHow are you?";
-  // $headers = "From: from@example.com";
-  // mail($to, $subject, $message, $headers);
-
 ?>
 
 <!DOCTYPE html>

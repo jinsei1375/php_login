@@ -4,21 +4,13 @@
   session_start();
 
   if (isset($_POST['email']) && isset($_POST['password'])) {
-    // $res = getUserInfo($_POST);
-    // if (!$res) {
-    //   $_SESSION['message'] = "データがありません。";
-    //   header('Location: ./login.php');
-    // }
-
-    // setSessionUser($res);
-    // header('Location: ./mypage/index.php');
-    // exit();
     $dbh = db_connect();
     $sql = "SELECT * FROM users WHERE email = :email";
     $stmt = $dbh->prepare($sql);
     $stmt->bindValue(':email', $_POST['email']);
     $stmt->execute();
-    $user = $stmt->fetch();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    // echo var_dump($user);
     if (password_verify($_POST['password'], $user['password'])) {
       //DBのユーザー情報をセッションに保存
       $_SESSION["id"] = $user["id"];
@@ -32,6 +24,7 @@
       header('Location: ./login.php');
     }
   }
+
 
 ?>
 
