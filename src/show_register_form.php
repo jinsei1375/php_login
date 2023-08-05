@@ -30,5 +30,5 @@ if (empty($_SESSION['_csrf_token'])) {
     $_SESSION['_csrf_token'] = bin2hex(random_bytes(32));
 }
 
-// 本登録フォームを読み込む
+require_once './parts/header.php';
 require_once './register_form.php';

@@ -13,8 +13,6 @@ if (
     exit('不正なリクエストです');
 }
 
-// 本来はここでpasswordとregister_tokenのバリデーションをする
-
 $sql = 'UPDATE users SET password = :password, register_token_verified_at = :register_token_verified_at, status = :status  WHERE register_token = :register_token';
 
 // テーブルに登録するパスワードをハッシュ化
