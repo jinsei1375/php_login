@@ -7,3 +7,4 @@
 /.DS_Store
 /*.code-workspace
 /maildir/
+node_modules/
