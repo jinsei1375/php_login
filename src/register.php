@@ -29,3 +29,7 @@ $stmt->bindValue(':register_token', $request['register_token'], \PDO::PARAM_STR)
 $stmt->execute();
 
 echo '本会員登録が完了しました。';
+?>
+<p>
+    <a href="/mypage/index.php">マイページへ</a>
+</p>

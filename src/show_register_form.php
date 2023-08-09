@@ -32,3 +32,4 @@ if (empty($_SESSION['_csrf_token'])) {
 
 require_once './parts/header.php';
 require_once './register_form.php';
+require_once './parts/footer.php';

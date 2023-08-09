@@ -54,23 +54,6 @@
     }
   }
   require_once './parts/header.php';
+  require_once './tmp_register_form.php';
+  require_once './parts/footer.php';
 ?>
-  <main>
-    <div class="wrapper">
-      <h1 class="text-center">仮登録</h1>
-      <div class="form-wrap row justify-content-center">
-        <form action="tmp_register.php" method="POST" class="p-4 col-6">
-          <div class="mb-3">
-            <input type="hidden" name="_csrf_token" value="<?= $_SESSION['_csrf_token']; ?>">
-            <label for="email" class="form-label">メールアドレス</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com" value="<?php echo (isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : ''); ?>" required>
-            <?php if(!empty($error['email'])): ?>
-              <p class="text-danger"><?php echo $error['email']; ?></p>
-            <?php endif; ?>
-          </div>
-          <button type="submit" class="btn btn-primary">仮登録する</button>
-        </form>
-      </div>
-    </div>
-  </main>
-<?php require_once './parts/footer.php'; ?>
