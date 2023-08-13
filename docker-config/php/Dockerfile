@@ -33,13 +33,13 @@ RUN apt-get update \
 COPY php.ini /usr/local/etc/php/
 
 # # install stable node and latest npm
-# RUN curl -sL https://deb.nodesource.com/setup_18.x | bash
-# RUN apt-get update \
-#   && apt-get install -y nodejs 
-# # install node packages
-# RUN npm install -g n
-# RUN n stable
-# RUN npm update -g npm
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash
+RUN apt-get update \
+  && apt-get install -y nodejs 
+# install node packages
+RUN npm install -g n
+RUN n stable
+RUN npm update -g npm
 
 # mailhog設定
 # RUN curl -sSLO https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
@@ -48,11 +48,13 @@ COPY php.ini /usr/local/etc/php/
 # && echo 'sendmail_path = "/usr/local/bin/mhsendmail --smtp-addr=mailhog:1025"' > /usr/local/etc/php/conf.d/sendmail.ini
 
 # RUN apt-get update
-# RUN apt-get install -y vim
+RUN apt-get install -y vim
 # RUN curl -sSL https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 -o mhsendmail
 # RUN chmod +x mhsendmail
 # RUN mv mhsendmail /usr/local/bin/mhsendmail
 # COPY ./php.ini /usr/local/etc/php/php.ini
+RUN npx tailwindcss init
+# RUN npx tailwindcss -i /var/www/src/assets/css/input.css  -o /var/www/src/assets/css/dist/output.css --watch
 
 RUN apt-get update; apt-get install -y ssmtp
 COPY ./php.ini /usr/local/etc/php/php.ini
