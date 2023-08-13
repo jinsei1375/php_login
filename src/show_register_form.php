@@ -19,10 +19,10 @@ $user = $stmt->fetch(\PDO::FETCH_ASSOC);
 
 if (!$user) exit('無効なURLです');
 
-// 今回はtokenの有効期間を24時間とする
+// tokenの有効期間を24時間
 $tokenValidPeriod = (new \DateTime())->modify("-24 hour")->format('Y-m-d H:i:s');
 
-// 仮登録が24時間以上前の場合、有効期限切れとする
+// 仮登録が24時間以上前の場合、有効期限切れにする
 if ($user['register_token_sent_at'] < $tokenValidPeriod) exit('有効期限切れです');
 
 // formに埋め込むcsrf tokenの生成
