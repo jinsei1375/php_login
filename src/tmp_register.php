@@ -21,8 +21,7 @@
     $count = $stmt->fetch(PDO::FETCH_ASSOC);
     if($count['count(id)'] > 0 ) {
       $error['email'] = 'このメールアドレスはすでに使われています。';
-    }
-    if(!isset($error)) {
+    } else { 
 
       // register token生成
       $registerToken = bin2hex(random_bytes(32));

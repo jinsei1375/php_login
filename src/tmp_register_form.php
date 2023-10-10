@@ -3,6 +3,13 @@
     <div class="flex flex-col text-center w-full mb-12">
       <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">仮登録</h1>
       <p class="lg:w-2/3 mx-auto leading-relaxed text-base"></p>
+      <?php
+      if(isset($error['email'])) {
+      ?>
+        <p class="text-center"><?php echo $error['email'] ?? ''; ?></p>
+      <?php
+      }
+      ?>
     </div>
     <form class="lg:w-1/2 md:w-2/3 mx-auto" method="POST" action="tmp_register.php">
         <input type="hidden" name="_csrf_token" value="<?= $_SESSION['_csrf_token']; ?>">
