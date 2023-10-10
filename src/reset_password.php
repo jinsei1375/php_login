@@ -27,6 +27,17 @@ $stmt->bindValue(':reset_token', $request['reset_token'], \PDO::PARAM_STR);
 $stmt->execute();
 
 echo 'パスワード再設定が完了しました。';
+
+// ユーザー情報セッションに登録
+$sql = "SELECT * FROM users WHERE reset_token = :reset_token";
+$stmt = $dbh->prepare($sql);
+$stmt->bindValue(':reset_token', $request['reset_token'], \PDO::PARAM_STR);
+$stmt->execute();
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$_SESSION["id"] = $user["id"];
+$_SESSION["email"] = $user["email"];
+$_SESSION["name"] = $user["name"];
+$_SESSION["is_login"] = 1;
 ?>
 <p>
     <a href="/mypage/index.php">マイページへ</a>
