@@ -22,7 +22,7 @@ if (!$user) exit('無効なURLです');
 // tokenの有効期間を30分
 $tokenValidPeriod = (new \DateTime())->modify("-30 minute")->format('Y-m-d H:i:s');
 
-// 30分以上前の場合、有効期限切れにする
+// 30分超えたら、有効期限切れに
 if ($user['reset_token_sent_at'] < $tokenValidPeriod) exit('有効期限切れです');
 
 // formに埋め込むcsrf tokenの生成
