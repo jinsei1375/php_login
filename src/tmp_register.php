@@ -49,6 +49,8 @@
       if(mb_send_mail($email, $subject, $body, $headers)) {
         header('Location: email_sent.php');
         exit();
+      } else {
+        exit('メール送信に失敗しました。');
       }
     }
   }
