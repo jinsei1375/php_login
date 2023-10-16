@@ -1,6 +1,6 @@
 <?php 
 
-  require_once('../db_connect.php');
+  require_once('../functions.php');
   session_start();
   if(!isset($_SESSION['is_login'])) {
     header('Location: ../index.php');

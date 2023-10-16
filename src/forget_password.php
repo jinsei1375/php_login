@@ -1,6 +1,6 @@
 <?php 
 
-  require_once('./db_connect.php');
+  require_once('./functions.php');
 
   // formに埋め込むcsrf tokenの生成
   if (empty($_SESSION['_csrf_token'])) {

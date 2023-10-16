@@ -1,5 +1,5 @@
 <?php
-    require_once('./db_connect.php');
+    require_once('./functions.php');
     session_start();
 
     $request = filter_input_array(INPUT_POST);
