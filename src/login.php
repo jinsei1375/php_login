@@ -10,16 +10,14 @@
     $stmt->bindValue(':email', $_POST['email']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    // echo var_dump($user);
+
     if(!$user) {
       $message = "メールアドレスもしくはパスワードが間違っています";
     } else {
       if (password_verify($_POST['password'], $user['password'])) {
-        //DBのユーザー情報をセッションに保存
-        $_SESSION["id"] = $user["id"];
-        $_SESSION["email"] = $user["email"];
-        $_SESSION["name"] = $user["name"];
-        $_SESSION["is_login"] = 1;
+        //user_tokensにデータ登録 or データ追加
+        createOrInsertUserToken($user['id']);
+        
         header('Location: ./mypage/index.php');
         exit();
       } else {
@@ -50,7 +48,7 @@
               <div class="p-2 w-full">
                 <div class="relative">
                   <label for="email" class="leading-7 text-sm text-gray-600">メールアドレス</label>
-                  <input type="email" id="email" name="email" value="<?php echo (isset($_SESSION['email']) ? $_SESSION['email'] : ''); ?>" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                  <input type="email" id="email" name="email" value="<?php echo (isset($_POST['email']) ? $_POST['email'] : ''); ?>" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                 </div>
               </div>
               <div class="p-2 w-full">

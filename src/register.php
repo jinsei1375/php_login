@@ -32,20 +32,6 @@
         $stmt->bindValue(':status', 1, \PDO::PARAM_STR);
         $stmt->bindValue(':register_token', $request['register_token'], \PDO::PARAM_STR);
         $stmt->execute();
-        
-        
-        // echo '本会員登録が完了しました。';
-        
-        // ユーザー情報セッションに登録
-        // $sql = "SELECT * FROM users WHERE register_token = :register_token";
-        // $stmt = $dbh->prepare($sql);
-        // $stmt->bindValue(':register_token', $request['register_token'], \PDO::PARAM_STR);
-        // $stmt->execute();
-        // $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        // $_SESSION["id"] = $user["id"];
-        // $_SESSION["email"] = $user["email"];
-        // $_SESSION["name"] = $user["name"];
-        // $_SESSION["is_login"] = 1;
 
         header('Location: registered.php');
         exit();
