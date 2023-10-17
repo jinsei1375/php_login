@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once('./functions.php');
+require_once('../functions.php');
 
 // クエリからregister_tokenを取得
 $registerToken = filter_input(INPUT_GET, 'token');
@@ -30,6 +30,6 @@ if (empty($_SESSION['_csrf_token'])) {
     $_SESSION['_csrf_token'] = bin2hex(random_bytes(32));
 }
 
-require_once './parts/header.php';
+require_once '../parts/header.php';
 require_once './register_form.php';
-require_once './parts/footer.php';
+require_once '../parts/footer.php';

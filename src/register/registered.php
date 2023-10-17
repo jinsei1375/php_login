@@ -1,5 +1,5 @@
 <?php 
-  require_once './parts/header.php';
+  require_once '../parts/header.php';
 
 ?>
   <main>
@@ -12,4 +12,4 @@
       </section>
     </div>
   </main>
-<?php require_once './parts/footer.php'; ?>
+<?php require_once '../parts/footer.php'; ?>

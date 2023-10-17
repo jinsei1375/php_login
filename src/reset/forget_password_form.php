@@ -4,7 +4,7 @@
       <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">パスワード再設定</h1>
       <p class="lg:w-2/3 mx-auto leading-relaxed text-base">登録しているメールアドレスを入力してください。</p>
     </div>
-    <form class="lg:w-1/2 md:w-2/3 mx-auto" method="POST" action="forget_password.php">
+    <form class="lg:w-1/2 md:w-2/3 mx-auto" method="POST" action="./forget_password.php">
         <input type="hidden" name="_csrf_token" value="<?= $_SESSION['_csrf_token']; ?>">
           <!-- <?php
           if(isset($message)) {

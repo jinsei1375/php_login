@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('./functions.php');
+require_once('../functions.php');
 
 $request = filter_input_array(INPUT_POST);
 
@@ -26,19 +26,8 @@ $stmt->bindValue(':reset_token_verified_at', (new \DateTime())->format('Y-m-d H:
 $stmt->bindValue(':reset_token', $request['reset_token'], \PDO::PARAM_STR);
 $stmt->execute();
 
-echo 'パスワード再設定が完了しました。';
-
-// ユーザー情報セッションに登録
-$sql = "SELECT * FROM users WHERE reset_token = :reset_token";
-$stmt = $dbh->prepare($sql);
-$stmt->bindValue(':reset_token', $request['reset_token'], \PDO::PARAM_STR);
-$stmt->execute();
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
-$_SESSION["id"] = $user["id"];
-$_SESSION["email"] = $user["email"];
-$_SESSION["name"] = $user["name"];
-$_SESSION["is_login"] = 1;
 ?>
 <p>
-    <a href="/mypage/index.php">マイページへ</a>
+    パスワード再設定が完了しました。<br>
+    <a href="../login.php">ログインページへ</a>
 </p>

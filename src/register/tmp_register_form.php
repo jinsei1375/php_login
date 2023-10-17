@@ -11,7 +11,7 @@
       }
       ?>
     </div>
-    <form class="lg:w-1/2 md:w-2/3 mx-auto" method="POST" action="tmp_register.php">
+    <form class="lg:w-1/2 md:w-2/3 mx-auto" method="POST" action="./tmp_register.php">
         <input type="hidden" name="_csrf_token" value="<?= $_SESSION['_csrf_token']; ?>">
         <div class="p-2 w-full">
           <div class="relative">

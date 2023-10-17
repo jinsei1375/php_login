@@ -12,7 +12,7 @@
             echo "データベース接続エラー:" . $e->getMessage();
         }
     }
-    
+
     function createOrInsertUserToken($user_id)
     {
         $dbh = db_connect();
@@ -28,13 +28,11 @@
             $stmt->bindValue(':user_id', $user_id);
             $stmt->execute();
         } else {
-            $sql = 'INSERT INTO user_tokens (user_id, token, update_datetime, created_at, update_at) VALUES (:user_id, :token, :update_datetime, :created_at, :update_at)';
+            $sql = 'INSERT INTO user_tokens (user_id, token, update_datetime) VALUES (:user_id, :token, :update_datetime)';
             $stmt = $dbh->prepare($sql);
             $stmt->bindValue(':user_id', $user_id);
             $stmt->bindValue(':token', bin2hex(random_bytes(32)));
             $stmt->bindValue(':update_datetime', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
-            $stmt->bindValue(':created_at', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
-            $stmt->bindValue(':update_at', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
             $stmt->execute();
         }
     }

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once('./functions.php');
+require_once('../functions.php');
 
 // クエリからreset_tokenを取得
 $passwordResetToken = filter_input(INPUT_GET, 'token');
@@ -30,7 +30,7 @@ if (empty($_SESSION['_csrf_token'])) {
     $_SESSION['_csrf_token'] = bin2hex(random_bytes(32));
 }
 
-require_once './parts/header.php';
+require_once '../parts/header.php';
 require_once './reset_password_form.php';
 echo $tokenValidPeriod . '  ' . $user['reset_token_sent_at'];
-require_once './parts/footer.php';
+require_once '../parts/footer.php';

@@ -1,6 +1,6 @@
 <?php 
 
-  require_once('./functions.php');
+  require_once('../functions.php');
 
   // formに埋め込むcsrf tokenの生成
   if (empty($_SESSION['_csrf_token'])) {
@@ -34,7 +34,7 @@
       $stmt->execute();
 
 
-      $url = "http://localhost:8888/show_register_form.php?token={$registerToken}";
+      $url = "http://localhost:8888/register/show_register_form.php?token={$registerToken}";
       $subject =  '仮登録が完了しました';
       $body = <<<EOD
           会員登録ありがとうございます！
@@ -47,14 +47,14 @@
       $headers .= "Content-Type : text/plain";
 
       if(mb_send_mail($email, $subject, $body, $headers)) {
-        header('Location: email_sent.php');
+        header('Location: ../email_sent.php');
         exit();
       } else {
         exit('メール送信に失敗しました。');
       }
     }
   }
-  require_once './parts/header.php';
+  require_once '../parts/header.php';
   require_once './tmp_register_form.php';
-  require_once './parts/footer.php';
+  require_once '../parts/footer.php';
 ?>

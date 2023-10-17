@@ -1,6 +1,6 @@
 <?php 
 
-  require_once('./functions.php');
+  require_once('../functions.php');
 
   // formに埋め込むcsrf tokenの生成
   if (empty($_SESSION['_csrf_token'])) {
@@ -35,7 +35,7 @@
       $stmt->execute();
 
 
-      $url = "http://localhost:8888/show_reset_password.php?token={$passwordResetToken}";
+      $url = "http://localhost:8888/reset/show_reset_password.php?token={$passwordResetToken}";
       $subject =  'パスワード再設定用のURLを付与しました。';
       $body = <<<EOD
           パスワード再設定用のURLを付与しました。
@@ -48,11 +48,11 @@
       $headers .= "Content-Type : text/plain";
 
       if(mb_send_mail($email, $subject, $body, $headers)) {
-        header('Location: email_sent.php');
+        header('Location: ../email_sent.php');
         exit();
       }
     }
   }
-  require_once './parts/header.php';
+  require_once '../parts/header.php';
   require_once './forget_password_form.php';
 ?>

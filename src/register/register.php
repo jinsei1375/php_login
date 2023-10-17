@@ -1,5 +1,5 @@
 <?php
-    require_once('./functions.php');
+    require_once('../functions.php');
     session_start();
 
     $request = filter_input_array(INPUT_POST);
@@ -33,10 +33,10 @@
         $stmt->bindValue(':register_token', $request['register_token'], \PDO::PARAM_STR);
         $stmt->execute();
 
-        header('Location: registered.php');
+        header('Location: ./registered.php');
         exit();
     }
-    require_once './parts/header.php';
+    require_once '../parts/header.php';
     require_once './register_form.php';
-    require_once './parts/footer.php';
+    require_once '../parts/footer.php';
 ?>

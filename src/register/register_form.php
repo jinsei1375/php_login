@@ -11,7 +11,7 @@
         <?php
         }
         ?>
-        <form class="lg:w-1/2 md:w-2/3 mx-auto" method="POST" action="register.php" onsubmit="return confirmPassword()">
+        <form class="lg:w-1/2 md:w-2/3 mx-auto" method="POST" action="./register.php" onsubmit="return confirmPassword()">
             <input type="hidden" name="_csrf_token" value="<?= $_SESSION['_csrf_token']; ?>">
             <input type="hidden" name="register_token" value="<?= $registerToken; ?>">
             <div class="p-2 w-full">
