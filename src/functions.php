@@ -36,9 +36,18 @@
             $stmt->execute();
         }
     }
-    function updateUserTokenDatetime($user_id)
+    
+    // メールアドレスからユーザー情報取得
+    function getUserInfoByEmail($email)
     {
-        
+        $sql = "SELECT * FROM users WHERE email = :email";
+        $dbh = db_connect();
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(':email', $email);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user;
     }
 
     function getUserInfo($request)

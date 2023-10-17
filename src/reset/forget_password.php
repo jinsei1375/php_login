@@ -13,12 +13,7 @@
 
 
   if(!empty($_POST)) {
-    $sql = "SELECT * FROM users WHERE email = :email";
-    $dbh = db_connect();
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':email', $_POST['email']);
-    $stmt->execute();
-    $user= $stmt->fetch(PDO::FETCH_ASSOC);
+    $user= getUserInfoByEmail($_POST['email']);
     if(!$user) {
       $message = 'このメールアドレスの会員は存在しません。';
     } else {
