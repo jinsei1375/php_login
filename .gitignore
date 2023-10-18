@@ -2,6 +2,7 @@
 /.history/
 /docker-config/mysql/data/
 /src/log/
+/src/vendor/
 # FILE
 /.circleci
 /.DS_Store
