@@ -13,28 +13,38 @@
         }
     }
 
-    function createOrInsertUserToken($user_id)
+    //user_tokensにデータ登録 or データ追加
+    function createOrInsertUserToken($userId)
     {
         $dbh = db_connect();
-        $sql = "SELECT count(*) FROM user_tokens WHERE user_id = :user_id";
+        $sql = "SELECT * FROM user_tokens WHERE user_id = :user_id";
         $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(':user_id', $user_id);
+        $stmt->bindValue(':user_id', $userId);
         $stmt->execute();
-        $user_token = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($user_token['count(*)'] == 1) {
+        $userToken = $stmt->fetch(PDO::FETCH_ASSOC);
+        $count = $stmt->rowCount();
+        $token = bin2hex(random_bytes(32));
+
+        if ($count == 1) {
             $sql = 'UPDATE user_tokens SET update_datetime = :update_datetime WHERE user_id = :user_id';
             $stmt = $dbh->prepare($sql);
             $stmt->bindValue(':update_datetime', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
-            $stmt->bindValue(':user_id', $user_id);
+            $stmt->bindValue(':user_id', $userId);
             $stmt->execute();
-        } else {
+
+            $_SESSION['user_token'] = $userToken['token'];
+        } 
+        else {
             $sql = 'INSERT INTO user_tokens (user_id, token, update_datetime) VALUES (:user_id, :token, :update_datetime)';
             $stmt = $dbh->prepare($sql);
-            $stmt->bindValue(':user_id', $user_id);
-            $stmt->bindValue(':token', bin2hex(random_bytes(32)));
+            $stmt->bindValue(':user_id', $userId);
+            $stmt->bindValue(':token', $token);
             $stmt->bindValue(':update_datetime', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
             $stmt->execute();
+
+            $_SESSION['user_token'] = $token;
         }
+
     }
     
     // メールアドレスからユーザー情報取得
@@ -48,6 +58,18 @@
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $user;
+    }
+
+    function getUserInfoByUserToken($userToken)
+    {
+        $sql = "SELECT * FROM user_tokens WHERE token = :token";
+        $dbh = db_connect();
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(':token', $userToken);
+        $stmt->execute();
+        $userToken = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $userToken;
     }
 
     function getUserInfo($request)
