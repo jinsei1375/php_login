@@ -1,4 +1,5 @@
 <?php 
+  use Carbon\Carbon;
 
   require_once('../functions.php');
   session_start();
@@ -6,6 +7,8 @@
     header('Location: ../index.php');
     exit();
   }
+
+  $loginDatetime = Carbon::now();
   require_once '../parts/header.php';
 
 ?>
