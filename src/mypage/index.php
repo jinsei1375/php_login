@@ -1,7 +1,8 @@
 <?php 
-  use Carbon\Carbon;
-
+  require_once '../vendor/autoload.php';
   require_once('../functions.php');
+  use Carbon\Carbon;  
+
   session_start();
   if(!isset($_SESSION['is_login'])) {
     header('Location: ../index.php');

@@ -1,7 +1,6 @@
 <?php 
 
   require_once('./functions.php');
-  require 'vendor/autoload.php';
   session_start();
 
   if (isset($_POST['email']) && isset($_POST['password'])) {
