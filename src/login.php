@@ -4,19 +4,14 @@
   session_start();
 
   if (isset($_POST['email']) && isset($_POST['password'])) {
-    $dbh = db_connect();
-    $sql = "SELECT * FROM users WHERE email = :email";
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':email', $_POST['email']);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $user = getUserByEmail($_POST['email']);
 
     if(!$user) {
       $message = "メールアドレスもしくはパスワードが間違っています";
     } else {
       if (password_verify($_POST['password'], $user['password'])) {
         //user_tokensにデータ登録 or データ追加
-        createOrInsertUserToken($user['id']);
+        insertOrUpdateUserToken($user['id']);
         
         header('Location: ./mypage/index.php');
         exit();

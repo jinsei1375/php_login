@@ -5,9 +5,9 @@
             <p class="lg:w-2/3 mx-auto leading-relaxed text-base"></p>
         </div>
         <?php
-        if(isset($error['register'])) {
+        if(isset($_SESSION['error'])) {
         ?>
-            <p class="text-center"><?php echo $error['register'] ?? ''; ?></p>
+            <p class="text-center"><?php echo $_SESSION['error'] ?? ''; ?></p>
         <?php
         }
         ?>

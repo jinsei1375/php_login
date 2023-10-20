@@ -13,7 +13,7 @@
 
 
   if(!empty($_POST)) {
-    $user= getUserInfoByEmail($_POST['email']);
+    $user= getUserByEmail($_POST['email']);
     if(!$user) {
       $message = 'このメールアドレスの会員は存在しません。';
     } else {
