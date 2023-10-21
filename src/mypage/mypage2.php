@@ -20,6 +20,7 @@
             <p>ユーザーID：<?php echo $user['id']; ?></p>
             <p>メールアドレス：<?php echo $user['email']; ?></p>
             <p>本登録日時：<?php echo Carbon::parse($user['register_token_verified_at'])->isoFormat('YYYY/MM/DD HH:mm'); ?></p>
+            <p><a href="mypage1.php" class="text-red-400 hover:opacity-70">マイページトップへ</a></p>
           </div>
         </div>
       </section>
