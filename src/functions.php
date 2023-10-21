@@ -79,6 +79,48 @@
         }
     }
     
+    
+    function checkUserLoginStatus($token)
+    {
+        if(!isLogin($token)) {
+            header('Location: /login.php');
+            exit();
+        }
+        insertOrUpdateUserToken(getUserByUserToken($token)['id']);
+    }
+    
+    function isLogin($token)
+    {
+        $effectiveTime = 1;
+        $userToken = getUserTokenByToken($token);
+        $now = Carbon::now();
+        $expirationDatetime = Carbon::parse($userToken['update_datetime'])->addMinutes($effectiveTime);
+        if ($expirationDatetime->gt($now)) {
+            return true;
+        }
+    }
+    
+    // ユーザートークンからユーザー情報取得
+    function getUserByUserToken($token)
+    {
+        $userToken = getUserTokenByToken($token);
+        $user = getUserById($userToken['user_id']);
+        return $user;
+    }
+    
+    // トークンからユーザートークン取得
+    function getUserTokenByToken($token)
+    {
+        $sql = "SELECT * FROM user_tokens WHERE token = :token";
+        $dbh = db_connect();
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(':token', $token);
+        $stmt->execute();
+        $userToken = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $userToken;
+    }
+    
     // メールアドレスからユーザー情報取得
     function getUserByEmail($email)
     {
@@ -110,104 +152,3 @@
             return $user;
         }
     }
-
-    // ユーザーIDからユーザー情報取得
-    function getUserByUserId($token)
-    {
-        $userToken = getUserTokenByToken($token);
-        $user = getUserById($userToken['user_id']);
-        return $user;
-    }
-
-    // ユーザートークンからユーザー情報取得
-    function getUserByUserToken($token)
-    {
-        $expirationTime = 1;
-        $userToken = getUserTokenByToken($token);
-        $user = getUserById($userToken['user_id']);
-        return $user;
-    }
-
-    function checkUserLoginStatus($token)
-    {
-        if(!isLogin($token)) {
-            header('Location: /login.php');
-            exit();
-        }
-        insertOrUpdateUserToken(getUserByUserToken($token)['id']);
-    }
-
-    function isLogin($token)
-    {
-        $effectiveTime = 1;
-        $userToken = getUserTokenByToken($token);
-        $now = Carbon::now();
-        $expirationDatetime = Carbon::parse($userToken['update_datetime'])->addMinutes($effectiveTime);
-        if ($expirationDatetime->gt($now)) {
-            return true;
-        }
-    }
-
-    function getUserTokenByToken($token)
-    {
-        $sql = "SELECT * FROM user_tokens WHERE token = :token";
-        $dbh = db_connect();
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(':token', $token);
-        $stmt->execute();
-        $userToken = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $userToken;
-    }
-
-    function getUserTokenByUserId($userId)
-    {
-        $sql = "SELECT * FROM user_tokens WHERE user_id = :user_id";
-        $dbh = db_connect();
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(':user_id', $userId);
-        $stmt->execute();
-        $userToken = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $userToken;
-    }
-
-    function getUserInfo($request)
-    {
-        if (empty($request)) {
-            print('wrong access!');
-            return false;
-        } 
-        try{
-            $pdo = db_connect();
-            $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
-    
-            $stmt->bindParam(':email', $request['email']);
-            $stmt->execute();
-            $response = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-            if (!password_verify($request['password'], $response['password'])) {
-                return false;
-            }
-            $pdo = null;
-            return $response;
-        }catch(Exception $e){
-            return $e;
-            print('error');
-        }
-    }
-    
-    function setSessionUser($user)
-    {   
-        if (isset($user["email"]) && isset($user["name"])) {
-            if(isset($_SESSION)){
-                $_SESSION = array();
-            }
-            
-            $_SESSION["id"] = $user["id"];
-            $_SESSION["email"] = $user["email"];
-            $_SESSION["name"] = $user["name"];
-            $_SESSION["is_login"] = 1;
-        }
-    }
-    
