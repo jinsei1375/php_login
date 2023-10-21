@@ -93,15 +93,81 @@
         if ($count == 1) {
             return $user;
         }
-
     }
 
-    function getUserToken($userToken)
+    // ユーザーIDからユーザー情報取得
+    function getUserById($id)
+    {
+        $sql = "SELECT * FROM users WHERE id = :id";
+        $dbh = db_connect();
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $count = $stmt->rowCount();
+
+        if ($count == 1) {
+            return $user;
+        }
+    }
+
+    // ユーザーIDからユーザー情報取得
+    function getUserByUserId($token)
+    {
+        $userToken = getUserTokenByToken($token);
+        $user = getUserById($userToken['user_id']);
+        return $user;
+    }
+
+    // ユーザートークンからユーザー情報取得
+    function getUserByUserToken($token)
+    {
+        $expirationTime = 1;
+        $userToken = getUserTokenByToken($token);
+        $user = getUserById($userToken['user_id']);
+        return $user;
+    }
+
+    function checkUserLoginStatus($token)
+    {
+        if(!isLogin($token)) {
+            header('Location: /login.php');
+            exit();
+        }
+        $user = getUserByUserToken($token);
+        insertOrUpdateUserToken($user['id']);
+    }
+
+    function isLogin($token)
+    {
+        $userToken = getUserTokenByToken($token);
+        $now = Carbon::now();
+        $expirationDatetime = Carbon::parse($userToken['update_datetime'])->addMinutes(1);
+        if ($expirationDatetime->gt($now)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function getUserTokenByToken($token)
     {
         $sql = "SELECT * FROM user_tokens WHERE token = :token";
         $dbh = db_connect();
         $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(':token', $userToken);
+        $stmt->bindValue(':token', $token);
+        $stmt->execute();
+        $userToken = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $userToken;
+    }
+
+    function getUserTokenByUserId($userId)
+    {
+        $sql = "SELECT * FROM user_tokens WHERE user_id = :user_id";
+        $dbh = db_connect();
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(':user_id', $userId);
         $stmt->execute();
         $userToken = $stmt->fetch(PDO::FETCH_ASSOC);
 
