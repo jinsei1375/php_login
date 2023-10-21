@@ -134,19 +134,17 @@
             header('Location: /login.php');
             exit();
         }
-        $user = getUserByUserToken($token);
-        insertOrUpdateUserToken($user['id']);
+        insertOrUpdateUserToken(getUserByUserToken($token)['id']);
     }
 
     function isLogin($token)
     {
+        $effectiveTime = 1;
         $userToken = getUserTokenByToken($token);
         $now = Carbon::now();
-        $expirationDatetime = Carbon::parse($userToken['update_datetime'])->addMinutes(1);
+        $expirationDatetime = Carbon::parse($userToken['update_datetime'])->addMinutes($effectiveTime);
         if ($expirationDatetime->gt($now)) {
             return true;
-        } else {
-            return false;
         }
     }
 
