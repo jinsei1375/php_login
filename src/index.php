@@ -1,5 +1,23 @@
 <?php 
   require_once './parts/header.php';
+  require_once 'vendor/autoload.php';
+  use Carbon\Carbon;  
+
+  $fistDt = Carbon::parse('2023-10-20');
+  $secondDt = Carbon::parse('2024-01-20');
+
+  $now = Carbon::now();
+
+  echo $now->isoFormat('YYYY/MM/DD HH:mm') . "<br>";
+  echo $now->format('Y/M/D') . "<br>";
+
+  echo $fistDt->diffInSeconds($secondDt) . "<br>";
+  echo $fistDt->diffInMinutes($secondDt) . "<br>";
+  echo $fistDt->diffInHours($secondDt) . "<br>";
+  echo $fistDt->diffInDays($secondDt) . "<br>";
+  echo $fistDt->diffInWeeks($secondDt) . "<br>";
+  echo $fistDt->diffInMonths($secondDt) . "<br>";
+  echo $fistDt->diffInYears($secondDt) . "<br>";
 ?>
   <main>
     <div class="wrapper">
