@@ -23,7 +23,7 @@
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(':user_id', $userId);
         $stmt->execute();
-        $userToken = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user_token = $stmt->fetch(PDO::FETCH_ASSOC);
         $count = $stmt->rowCount();
         $token = bin2hex(random_bytes(32));
 
@@ -34,7 +34,7 @@
             $stmt->bindValue(':user_id', $userId);
             $stmt->execute();
 
-            $_SESSION['user_token'] = $userToken['token'];
+            $_SESSION['user_token'] = $user_token['token'];
         } else {
             $sql = 'INSERT INTO user_tokens (user_id, token, update_datetime) VALUES (:user_id, :token, :update_datetime)';
             $stmt = $dbh->prepare($sql);
@@ -50,16 +50,16 @@
     function insertUser($email)
     {
         // register token生成
-        $registerToken = bin2hex(random_bytes(32));
+        $register_token = bin2hex(random_bytes(32));
 
         $dbh = db_connect();
         $stmt = $dbh->prepare("INSERT INTO users (email, register_token, register_token_sent_at) VALUES (:email, :register_token, :register_token_sent_at)");
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-        $stmt->bindValue(':register_token', $registerToken, PDO::PARAM_STR);
+        $stmt->bindValue(':register_token', $register_token, PDO::PARAM_STR);
         $stmt->bindValue(':register_token_sent_at', Carbon::now(), \PDO::PARAM_STR);
         $stmt->execute();
 
-        $url = "http://localhost:8888/register/show_register_form.php?token={$registerToken}";
+        $url = "http://localhost:8888/register/show_register_form.php?token={$register_token}";
         $subject =  '仮登録が完了しました';
         $body = <<<EOD
             会員登録ありがとうございます！
@@ -91,10 +91,10 @@
     
     function isLogin($token)
     {
-        $effectiveTime = 1;
-        $userToken = getUserTokenByToken($token);
+        $effective_time = 1;
+        $user_token = getUserTokenByToken($token);
         $now = Carbon::now();
-        $expirationDatetime = Carbon::parse($userToken['update_datetime'])->addMinutes($effectiveTime);
+        $expirationDatetime = Carbon::parse($user_token['update_datetime'])->addMinutes($effective_time);
         if ($expirationDatetime->gt($now)) {
             return true;
         }
@@ -103,8 +103,8 @@
     // ユーザートークンからユーザー情報取得
     function getUserByUserToken($token)
     {
-        $userToken = getUserTokenByToken($token);
-        $user = getUserById($userToken['user_id']);
+        $user_token = getUserTokenByToken($token);
+        $user = getUserById($user_token['user_id']);
         return $user;
     }
     
@@ -116,18 +116,19 @@
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(':token', $token);
         $stmt->execute();
-        $userToken = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user_token = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $userToken;
+        return $user_token;
     }
     
     // メールアドレスからユーザー情報取得
     function getUserByEmail($email)
     {
-        $sql = "SELECT * FROM users WHERE email = :email";
+        $sql = "SELECT * FROM users WHERE email = :email and status = :status";
         $dbh = db_connect();
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(':email', $email);
+        $stmt->bindValue(':status', 1);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         $count = $stmt->rowCount();
@@ -140,10 +141,11 @@
     // ユーザーIDからユーザー情報取得
     function getUserById($id)
     {
-        $sql = "SELECT * FROM users WHERE id = :id";
+        $sql = "SELECT * FROM users WHERE id = :id and status = :status";
         $dbh = db_connect();
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(':id', $id);
+        $stmt->bindValue(':status', 1);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         $count = $stmt->rowCount();

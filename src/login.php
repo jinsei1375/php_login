@@ -9,7 +9,7 @@
     if(!$user) {
       $message = "メールアドレスもしくはパスワードが間違っています";
     } else {
-      if (password_verify($_POST['password'], $user['password'])) {
+      if (isset($user['password']) && password_verify($_POST['password'], $user['password'])) {
         //user_tokensにデータ登録 or データ追加
         insertOrUpdateUserToken($user['id']);
         header('Location: ./mypage/mypage1.php');
