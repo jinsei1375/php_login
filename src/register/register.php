@@ -13,7 +13,7 @@
     }
 
     // ユーザー情報取得
-    $user = getUserByEmail($request['email']);
+    $user = getUserByEmail($request['email'], false);
     $backUrl = "http://localhost:8888/register/show_register_form.php?token=" . $request['register_token'];
     // todo 既存に登録されているメアド入力されたら通っちゃう
     if (!$user || $user['register_token'] !== $request['register_token']) {

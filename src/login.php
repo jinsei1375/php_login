@@ -4,7 +4,7 @@
   session_start();
 
   if (isset($_POST['email']) && isset($_POST['password'])) {
-    $user = getUserByEmail($_POST['email']);
+    $user = getUserByEmail($_POST['email'], true);
 
     if(!$user) {
       $message = "メールアドレスもしくはパスワードが間違っています";

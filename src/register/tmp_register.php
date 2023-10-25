@@ -13,7 +13,7 @@
 
 
   if(!empty($_POST)) {
-    if(getUserByEmail($_POST['email'])) {
+    if(getUserByEmail($_POST['email'], false)) {
       $error['email'] = 'このメールアドレスはすでに使われています。';
     } else { 
       insertUser($email);

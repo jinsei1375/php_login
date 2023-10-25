@@ -86,7 +86,7 @@
             header('Location: /login.php');
             exit();
         }
-        insertOrUpdateUserToken(getUserByUserToken($token)['id']);
+        insertOrUpdateUserToken(getUserTokenByToken($token)['user_id']);
     }
     
     function isLogin($token)
@@ -122,13 +122,19 @@
     }
     
     // メールアドレスからユーザー情報取得
-    function getUserByEmail($email)
+    function getUserByEmail($email, $isFullRegistration)
     {
-        $sql = "SELECT * FROM users WHERE email = :email and status = :status";
+        if ($isFullRegistration) {
+            $sql = "SELECT * FROM users WHERE email = :email and status = :status";
+        } else {
+            $sql = "SELECT * FROM users WHERE email = :email";
+        }
         $dbh = db_connect();
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(':email', $email);
-        $stmt->bindValue(':status', 1);
+        if ($isFullRegistration) {
+            $stmt->bindValue(':status', 1);
+        }
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         $count = $stmt->rowCount();
