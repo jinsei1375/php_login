@@ -16,7 +16,7 @@
     if(getUserByEmail($_POST['email'], false)) {
       $error['email'] = 'このメールアドレスはすでに使われています。';
     } else { 
-      insertUser($email);
+      insertTempUser($email);
     }
   }
   require_once '../parts/header.php';

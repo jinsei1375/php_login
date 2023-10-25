@@ -47,7 +47,7 @@
         }
     }
 
-    function insertUser($email)
+    function insertTempUser($email)
     {
         // register token生成
         $register_token = bin2hex(random_bytes(32));
